@@ -70,7 +70,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1534274064638,
+  "iteration": 1534355461375,
   "links": [],
   "panels": [
     {
@@ -107,8 +107,14 @@
         {
           "alias": "",
           "format": "time_series",
-          "rawSql": "SELECT\n  max(timestamp) as time,\n  CASE WHEN family(prefix) = 4 THEN 'ipv4' ELSE 'ipv6' END as metric,\n  1 as value\nFROM\n  global_ip_rib\nWHERE\n  recv_origin_as = [[asn_num]]\nGROUP BY prefix\n",
+          "rawSql": "SELECT\n  max(timestamp) as time,\n  count(*) as \"ipv4\"\nFROM\n  global_ip_rib\nWHERE\n  recv_origin_as = [[asn_num]]\n  and family(prefix) = 4\nGROUP BY prefix\n",
           "refId": "A"
+        },
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawSql": "SELECT\n  max(timestamp) as time,\n  count(*) as \"ipv6\"\nFROM\n  global_ip_rib\nWHERE\n  recv_origin_as = [[asn_num]]\n  and family(prefix) = 6\nGROUP BY prefix\n",
+          "refId": "B"
         }
       ],
       "title": "Advertised IP Addresses",
@@ -570,7 +576,7 @@
       "datatablePagingType": "simple_numbers",
       "datatableTheme": "basic_theme",
       "description": "",
-      "emptyData": true,
+      "emptyData": false,
       "fontSize": "100%",
       "gridPos": {
         "h": 15,
@@ -649,7 +655,7 @@
         {
           "alias": "",
           "format": "table",
-          "rawSql": "SELECT r.prefix as \"Prefix\",g.rpki_origin_as AS \"RPKI Origin AS\",i.origin_as as \"IRR Origin AS\",\"Last Change\", i.descr as \"IRR Description\", i.source as \"IRR Source\"\n\nFROM (\n  select prefix, max(timestamp) as \"Last Change\"\n  FROM ip_rib\n  WHERE origin_as = [[asn_num]] AND iswithdrawn = false\n  GROUP BY prefix\n  ) r\n  LEFT JOIN info_route i ON (i.prefix = r.prefix)\n  LEFT JOIN global_ip_rib g ON (g.prefix = r.prefix)\n  \n\n",
+          "rawSql": "SELECT r.prefix as \"Prefix\",g.rpki_origin_as AS \"RPKI Origin AS\",i.origin_as as \"IRR Origin AS\",\"Last Change\", i.descr as \"IRR Description\", i.source as \"IRR Source\"\n\nFROM (\n      select\n        prefix,\n        max(timestamp) as \"Last Change\"\n      FROM global_ip_rib\n      WHERE recv_origin_as = [[asn_num]]\n      GROUP BY prefix\n  ) r\n  LEFT JOIN info_route i ON (i.prefix = r.prefix)\n  LEFT JOIN global_ip_rib g ON (g.prefix = r.prefix)\n\n\n",
           "refId": "A"
         }
       ],
@@ -692,9 +698,8 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "109",
-          "value": "109"
+          "text": "3356",
+          "value": "3356"
         },
         "hide": 0,
         "includeAll": false,
@@ -745,5 +750,5 @@
   "timezone": "",
   "title": "ASN View",
   "uid": "CRZaPcFik",
-  "version": 18
+  "version": 21
 }
