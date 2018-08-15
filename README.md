@@ -1,6 +1,8 @@
 OpenBMP Grafana Integration
 ===========================
 
+[![Join the chat at https://gitter.im/OpenBMP/obmp-grafana](https://badges.gitter.im/OpenBMP/obmp-grafana.svg)](https://gitter.im/OpenBMP/obmp-grafana?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Grafana can be used with OpenBMP backends to visualize BGP data and statistics.
 
 This repository contains various dashboards that can be used against the 
