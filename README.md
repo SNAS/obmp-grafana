@@ -66,9 +66,12 @@ instructions.
 
 > #### NOTE:
 > A default **user** has been created already, so you can use that.
+> The credentials for the user are username: 'admin' and password: 'Snas123'
 
 > **IMPORTANT**
 > - By default SSL is enabled for Postgres, but it's using a self-signed cert.
+> - When adding the data source, set the SSL mode to "require" if using the default container.
+> - If you need to use your own certificate and key, add them to the /var/openbmp/config directory with the names postgres_cert.pem and postgres_cert.key
 
 - **username:** openbmp
 - **password:** openbmp
@@ -79,7 +82,7 @@ instructions.
 (4) Import Dashboards
 ---------------------
 
-Download to your local machine the dashboards you want to import.
+Download the dashboards you want to import to grafana on your local machine.
 
 > #### NOTE:
 > You do not have to be on the same machine where Grafana is running. You can
