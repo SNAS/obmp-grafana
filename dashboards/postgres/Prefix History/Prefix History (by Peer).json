@@ -20,7 +20,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.2.2"
+      "version": "5.2.4"
     },
     {
       "type": "panel",
@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1534274144111,
+  "iteration": 1539360007626,
   "links": [],
   "panels": [
     {
@@ -238,7 +238,7 @@
       "datasource": "${DS_PSQL}",
       "datatablePagingType": "simple_numbers",
       "datatableTheme": "basic_theme",
-      "emptyData": false,
+      "emptyData": true,
       "fontSize": "100%",
       "gridPos": {
         "h": 20,
@@ -363,11 +363,31 @@
         "datasource": "${DS_PSQL}",
         "hide": 0,
         "includeAll": false,
+        "label": "Router",
+        "multi": false,
+        "name": "router_name",
+        "options": [],
+        "query": "select distinct routername from v_peers",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PSQL}",
+        "hide": 0,
+        "includeAll": false,
         "label": "Peer",
         "multi": false,
         "name": "peer_name",
         "options": [],
-        "query": "select peername from v_peers",
+        "query": "select peername from v_peers where routername = '[[router_name]]'",
         "refresh": 1,
         "regex": "",
         "sort": 1,
@@ -411,5 +431,5 @@
   "timezone": "",
   "title": "Prefix History (by Peer)",
   "uid": "T1BOSIKmk",
-  "version": 6
+  "version": 2
 }
